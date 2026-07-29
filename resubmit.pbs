@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/sh
 #PBS -P v19
 #PBS -q normal
 #PBS -l walltime=03:00:00
@@ -9,121 +9,68 @@
 #PBS -m a
 #PBS -j oe
 #PBS -N wombat1p0
-#PBS -lstorage=gdata/v19+scratch/v19+gdata/p66+gdata/p66
+#PBS -lstorage=gdata/v19+scratch/v19+gdata/p93+scratch/p93+gdata/p66+gdata/p66
 
+set -euo pipefail
 
-##module load intel-fc
-##module load intel-cc
-#module unload openmpi
-#module load openmpi/1.10.2
-##module load openmpi
+# Move to directory where this script lives
+repo_root=${PBS_O_WORKDIR:-$(cd "$(dirname "$0")" && pwd)}
+cd "${repo_root}"
 
-##module load netcdf
+# Check that I have permissions to write here
+if [[ ! -w . ]]; then
+    echo "Run directory is not writable: ${repo_root}" >&2
+    exit 1
+fi
 
-#
-##----------------------------------------------------------------------------------------------
-## run the model with mpirun
-#
-set echo
+# Set source directories and name of MOM executable
+export MOM_EXECUTABLE=${MOM_EXECUTABLE:-fms_MOM_WOMBAT.x}
+export FORCING_SOURCE=${FORCING_SOURCE:-/scratch/v19/mtc599/access/jun25/work0/output}
+export RUNOFF_SOURCE=${RUNOFF_SOURCE:-/g/data/v19/mtc599/mom5/jra55_clim.1990/RYF.friver.1990_1991.nc}
 
-#set endyear = 2017
-#set endyear = 1957
-#set endyear = 1999
-#set endyear = 1950
-#set endyear = 2024
-set endyear = 2009
+# Set final year of simulation to run to
+endyear=${ENDYEAR:-2009}
 
-# jobs up to 1023 cpus are allowed up to 10 hours.  
-# to do: ask for  9 hours / do full year / output into 12-month files. 
-#
+# Ensure that we have the correct files in the correct locations
+bash preflight.sh
 
-unlimit 
-limit coredumpsize 0
+# Read the current year from the restart file
+read -r runyear _ < <(tail -n 1 RESTART/coupler.res)
+if (( runyear > endyear )); then
+    echo "Restart year ${runyear} is beyond ENDYEAR=${endyear}; stopping."
+    exit 0
+fi
 
-echo "Check if the restart files are present"
-if (! -f RESTART/coupler.res) then
- echo "Restart file is missing"
- echo "... drop an abort signal"
- touch abort
-else
- set lastline = `tail -1 RESTART/coupler.res`
- set yr1 = $lastline[1]
- if ($yr1 > $endyear) then
-  echo "Year is $yr1, end is $endyear, time to stop.  Drop an abort"
-  touch abort
-  exit 0
- endif
-endif
+# Archive some restart files at the beginning of each decade 
+if [[ -f INPUT/coupler.res ]]; then
+    read -r inputyear inputmonth _ < <(tail -n 1 INPUT/coupler.res)
+    if (( inputmonth == 1 && inputyear % 10 == 0 )); then
+        archive="restart${inputyear}"
+        mkdir -p "${archive}"
+        find INPUT -maxdepth 1 -type f -name '*.res*' -exec mv -n {} "${archive}/" \;
+    fi
+fi
 
-echo "Check the restart time in INPUT, maybe save the restarts"
-if (-f INPUT/coupler.res) then
- set lastline = `tail -1 INPUT/coupler.res`
- set yr0 = $lastline[1]
- set mon0 = $lastline[2]
- if ($mon0 < 10) then
-  set month = "0$mon0"
- else
-  set month = "$mon0"
- endif
+if [[ -f abort ]]; then
+    echo "Found abort marker; remove it only after resolving the preceding failure." >&2
+    exit 1
+fi
 
- if ($month == 01 ) then
-  if (($yr0 % 10) == 0) then
-   mkdir restart$yr0
-   mv --no-clobber INPUT/*.res* restart$yr0
-  endif
+# Get the appropriate forcing files for the run year in question
+(
+    cd FORCING
+    bash forcing_links.sh "${runyear}"
+)
 
-#  if ($yr0 == 1948) then
-#   mkdir restart$yr0
-#   mv --no-clobber INPUT/*.res* restart$yr0
-#  endif
+# Move the restart files into the INPUT directory, which is where MOM5 looks at start up
+shopt -s nullglob
+restart_files=(RESTART/*.res*)
+if (( ${#restart_files[@]} == 0 )); then
+    echo "No restart files found in RESTART." >&2
+    exit 1
+fi
+mv "${restart_files[@]}" INPUT/
 
-  if ($yr0 == 1958) then
-   mkdir restart$yr0
-   mv --no-clobber INPUT/*.res* restart$yr0
-  endif
+# Call the run script
+bash run.pbs
 
- endif
-endif
-
-echo "Check BGC limits in the mom stdout"
-if (-f log.txt) then
- set top = `grep "maximum o2" log.txt | tail -1 | awk '{print $5}'`
- set limit = 1e4
-
- perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
-  {print "o2 $ARGV[1], pass\n"} else {print "o2 $ARGV[1], oh-oh\n"; system("touch abort")}' \
-  $limit $top
-
- set top = `grep "maximum dic" log.txt | tail -1 | awk '{print $5}'`
-
- #perl -e 'if ($ARGV[0] < $ARGV[1]) \
- perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
-  {print "dic $ARGV[1], pass\n"} else {print "dic $ARGV[1], oh-oh\n"; system("touch abort")}' \
-  $limit $top
-
- set top = `grep "maximum no3" log.txt | tail -1 | awk '{print $5}'`
- set limit = 1e3
-
- #perl -e 'if ($ARGV[0] < $ARGV[1]) \
- perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
-  {print "no3 $ARGV[1], pass\n"} else {print "no3 $ARGV[1], oh-oh\n"; system("touch abort")}' \
-  $limit $top
-endif
-
-
-if (-f abort) then
- echo "Found abort"
- exit
-endif
-
-# everything has passed, so move RESTART/ files into INPUT and run code.  
-cd FORCING
-./forcing_links.sh $yr1 || exit 1
-cd ..
-
-mv RESTART/*.res* INPUT
-
-./run.pbs
-
-
-exit 0

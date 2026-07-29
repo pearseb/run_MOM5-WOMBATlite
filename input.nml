@@ -169,6 +169,7 @@
       neutralrho_max=1030.0
       layer_nk=80
       eos_linear=.false. 
+ eos_preteos10=.true. 
  eos_preteos10=.true.
 /
 

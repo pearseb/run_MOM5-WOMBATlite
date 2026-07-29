@@ -17,7 +17,7 @@ mom5_ocean_sis
 #"ocean_month%4yr",     1,  "months", 1, "days", "time",12,"months"
 "ocean_surf%4yr%2mo",      1,  "months", 1, "days", "time",12,"months"
 #"ocean_topaz_month%4yr", 1,  "days", 1, "days", "time",12,"months"
-"ocean_scalar%4yr%2mo",   1,  "months", 1, "days", "time"12,"months"
+"ocean_scalar%4yr%2mo",   1,  "months", 1, "days", "time",12,"months"
 #"ocean_residency_month",1,"months",1,"hours","Time"12,"months"
 #"ocean_residency_snap",1,"months",1,"hours","Time"12,"months"
 "ocean_bgc%4yr%2mo",       1,  "months", 1, "days", "time",12,"months"
