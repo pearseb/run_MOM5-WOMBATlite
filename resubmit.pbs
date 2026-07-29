@@ -66,4 +66,4 @@ if (( ${#restart_files[@]} == 0 )); then
 fi
 mv "${restart_files[@]}" INPUT/
 
-./run.pbs
+bash run.pbs
