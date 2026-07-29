@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/atmos_mosaicXocean_mosaic.nc

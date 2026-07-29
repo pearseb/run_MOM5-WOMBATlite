@@ -1,0 +1,1 @@
+../INITIAL/ocean_bih_friction.res.nc

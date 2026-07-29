@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/ocmip2_siple_co2_atm_am2_bc-1-9999.nc

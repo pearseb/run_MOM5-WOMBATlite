@@ -1,0 +1,13 @@
+ ! NOAA/PMEL TMAP
+ ! FERRET v7.6 (optimized)
+ ! Linux 4.18.0-240.1.1.el8.nci.x86_64 64-b - 03/09/21
+ !  6-Jun-25 16:46     
+
+use ocean_month_1966_01.nc
+use ../../apr25a/OUTPUT/ocean_month_1966_01.nc
+set viewport ul
+palette broad
+shade cfc_11[l=1,x=180,d=1]
+set viewport ur
+shade cfc_11[l=1,x=180,d=2]
+exit

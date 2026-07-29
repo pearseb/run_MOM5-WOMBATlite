@@ -1,0 +1,1 @@
+../INITIAL/ocean_sbc.res.nc

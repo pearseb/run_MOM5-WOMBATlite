@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/cfc.bc.jun26.nc

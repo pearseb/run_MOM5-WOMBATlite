@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/co2_obs.may25.nc

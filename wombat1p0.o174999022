@@ -1,0 +1,34 @@
+set endyear = 2009
+unlimit
+limit coredumpsize 0
+echo Check if the restart files are present
+Check if the restart files are present
+if ( ! -f RESTART/coupler.res ) then
+echo Restart file is missing
+Restart file is missing
+echo ... drop an abort signal
+... drop an abort signal
+touch abort
+touch: cannot touch 'abort': Read-only file system
+else
+echo Check the restart time in INPUT, maybe save the restarts
+Check the restart time in INPUT, maybe save the restarts
+if ( -f INPUT/coupler.res ) then
+echo Check BGC limits in the mom stdout
+Check BGC limits in the mom stdout
+if ( -f log.txt ) then
+if ( -f abort ) then
+cd FORCING
+FORCING: No such file or directory.
+
+======================================================================================
+                  Resource Usage on 2026-07-29 11:21:18:
+   Job Id:             174999022.gadi-pbs
+   Project:            v19
+   Exit Status:        1
+   Service Units:      0.53
+   NCPUs Requested:    192                 CPU Time Used: 00:00:00        
+   Memory Requested:   384.0GB               Memory Used: 10.39MB         
+   Walltime Requested: 03:00:00            Walltime Used: 00:00:05        
+   JobFS Requested:    400.0MB                JobFS Used: 0B              
+======================================================================================

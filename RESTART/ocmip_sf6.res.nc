@@ -1,0 +1,1 @@
+../INITIAL/ocmip_sf6.res.nc

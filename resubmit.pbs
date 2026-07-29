@@ -1,0 +1,129 @@
+#!/bin/csh
+#PBS -P v19
+#PBS -q normal
+#PBS -l walltime=03:00:00
+#PBS -l mem=384gb
+#PBS -l ncpus=192
+#PBS -l other=rms
+#PBS -l wd
+#PBS -m a
+#PBS -j oe
+#PBS -N wombat1p0
+#PBS -lstorage=gdata/v19+scratch/v19+gdata/p66+gdata/p66
+
+
+##module load intel-fc
+##module load intel-cc
+#module unload openmpi
+#module load openmpi/1.10.2
+##module load openmpi
+
+##module load netcdf
+
+#
+##----------------------------------------------------------------------------------------------
+## run the model with mpirun
+#
+set echo
+
+#set endyear = 2017
+#set endyear = 1957
+#set endyear = 1999
+#set endyear = 1950
+#set endyear = 2024
+set endyear = 2009
+
+# jobs up to 1023 cpus are allowed up to 10 hours.  
+# to do: ask for  9 hours / do full year / output into 12-month files. 
+#
+
+unlimit 
+limit coredumpsize 0
+
+echo "Check if the restart files are present"
+if (! -f RESTART/coupler.res) then
+ echo "Restart file is missing"
+ echo "... drop an abort signal"
+ touch abort
+else
+ set lastline = `tail -1 RESTART/coupler.res`
+ set yr1 = $lastline[1]
+ if ($yr1 > $endyear) then
+  echo "Year is $yr1, end is $endyear, time to stop.  Drop an abort"
+  touch abort
+  exit 0
+ endif
+endif
+
+echo "Check the restart time in INPUT, maybe save the restarts"
+if (-f INPUT/coupler.res) then
+ set lastline = `tail -1 INPUT/coupler.res`
+ set yr0 = $lastline[1]
+ set mon0 = $lastline[2]
+ if ($mon0 < 10) then
+  set month = "0$mon0"
+ else
+  set month = "$mon0"
+ endif
+
+ if ($month == 01 ) then
+  if (($yr0 % 10) == 0) then
+   mkdir restart$yr0
+   mv --no-clobber INPUT/*.res* restart$yr0
+  endif
+
+#  if ($yr0 == 1948) then
+#   mkdir restart$yr0
+#   mv --no-clobber INPUT/*.res* restart$yr0
+#  endif
+
+  if ($yr0 == 1958) then
+   mkdir restart$yr0
+   mv --no-clobber INPUT/*.res* restart$yr0
+  endif
+
+ endif
+endif
+
+echo "Check BGC limits in the mom stdout"
+if (-f log.txt) then
+ set top = `grep "maximum o2" log.txt | tail -1 | awk '{print $5}'`
+ set limit = 1e4
+
+ perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
+  {print "o2 $ARGV[1], pass\n"} else {print "o2 $ARGV[1], oh-oh\n"; system("touch abort")}' \
+  $limit $top
+
+ set top = `grep "maximum dic" log.txt | tail -1 | awk '{print $5}'`
+
+ #perl -e 'if ($ARGV[0] < $ARGV[1]) \
+ perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
+  {print "dic $ARGV[1], pass\n"} else {print "dic $ARGV[1], oh-oh\n"; system("touch abort")}' \
+  $limit $top
+
+ set top = `grep "maximum no3" log.txt | tail -1 | awk '{print $5}'`
+ set limit = 1e3
+
+ #perl -e 'if ($ARGV[0] < $ARGV[1]) \
+ perl -e '$size=@ARGV;if ($size != 2 || $ARGV[1] < $ARGV[0]) \
+  {print "no3 $ARGV[1], pass\n"} else {print "no3 $ARGV[1], oh-oh\n"; system("touch abort")}' \
+  $limit $top
+endif
+
+
+if (-f abort) then
+ echo "Found abort"
+ exit
+endif
+
+# everything has passed, so move RESTART/ files into INPUT and run code.  
+cd FORCING
+./forcing_links.sh $yr1 || exit 1
+cd ..
+
+mv RESTART/*.res* INPUT
+
+./run.pbs
+
+
+exit 0

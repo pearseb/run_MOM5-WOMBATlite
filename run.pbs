@@ -1,0 +1,89 @@
+#!/bin/csh
+##PBS -P fp2
+#PBS -P v19
+##PBS -P p93
+#PBS -q normal
+#PBS -l walltime=3:00:00
+#PBS -l mem=384gb
+#PBS -l ncpus=192
+#PBS -l other=rms
+#PBS -l wd
+#PBS -m a
+#PBS -j oe
+#PBS -N wombat1p0
+#PBS -lstorage=gdata/v19+scratch/v19
+
+# In this version all preprocessing of surface field has been done by a single processor job
+# We rely on the dependencies in "qsub"
+
+# Minimal runscript: mom4_test4
+
+source /opt/Modules/v4.3.0/init/csh
+
+#module load intel-fc
+#module load intel-cc
+module load openmpi/4.0.2
+#module load openmpi
+
+module load netcdf
+
+module list
+#
+##----------------------------------------------------------------------------------------------
+## run the model with mpirun
+#
+set BOMB = 0
+
+
+#unlimit 
+#limit coredumpsize 0
+#
+#mv log.txt log.txt.last
+
+#setenv IPM_HPM PAPI_FP_OPS,PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_TCA,PAPI_L2_TCM
+#setenv IPM_HPM PAPI_TOT_INS,PAPI_TOT_CYC,PAPI_L2_STM,PAPI_L2_LDM,PAPI_L2_TCM,PAPI_L2_DCM
+#module load hpctoolkit
+#mpirun -v  -mca mpi_paffinity_alone 1 -np $npes hpcrun ./$mom4_executable:t  || set BOMB = 1
+mpirun -v  -mca mtl ^mxm -mca mpi_paffinity_alone 1 -np 192 fms_MOM_WOMBAT.x.pb_20260605 > log.txt
+#mpirun -v  -np $npes fms_MOM_SIS.x || set BOMB = 1
+
+# some code to clean up?
+
+#echo 'Successful run = ' $BOMB
+#if ( $BOMB == 1 ) then
+#   exit 1
+#   sleep 5
+#endif
+
+#mv TMP/*.nc* OUTPUT
+
+echo "get the year from INPUT/coupler.res"
+
+set lastline = `tail -1 INPUT/coupler.res`
+set yr0 = $lastline[1]
+set mon0 = $lastline[2]
+
+if (! -f RESTART/coupler.res) then
+ echo "oh-oh, the new coupler.res file isn't there, stop"
+ exit
+endif
+
+if ($mon0 < 10 ) then
+ set mon0 = "0$mon0"
+endif
+
+mv ocean*.nc* OUTPUT
+mv ice*.nc.* OUTPUT
+
+if ( -f merge_job_waiting ) then
+ echo "seems that a merge job is already waiting"
+else
+ touch merge_job_waiting
+ qsub merge.csh
+endif
+
+mv log.txt log.txt.${yr0}_$mon0
+
+#qsub resubmit.pbs
+
+exit 0

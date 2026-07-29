@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/roughness_amp.nc

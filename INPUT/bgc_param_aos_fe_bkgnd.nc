@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/bgc_param_aos_fe_bkgnd.nc

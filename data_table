@@ -1,0 +1,48 @@
+"ATM",      "cfc_11_flux_pcair_atm", "CFC_11",       "INPUT/cfc.bc.nc", "bicubic", 1.0e-12
+"ATM",      "cfc_12_flux_pcair_atm", "CFC_12",       "INPUT/cfc.bc.nc", "bicubic", 1.0e-12
+
+"ATM",      "sf6_flux_pcair_atm", "SF6",       "INPUT/sf6.bc.nc", "bicubic", 1.0e-12
+"ATM",      "sf6_flux_pcair_atm", "SF6",       "INPUT/sf6.bc.nc", "bicubic", 1.0e-12
+
+"ATM" , "p_surf"        , "msl"         , "./FORCING/msl.nc"                     , "bicubic" ,  1.0
+"ATM" , "p_bot"         , "msl"         , "./FORCING/msl.nc"                     , "bicubic" ,  1.0
+"ATM" , "t_bot"         , "t2m"     , "./FORCING/2t.nc"	, "bicubic" ,  1.0
+"ATM" , "sphum_bot"     , "sh"    , "./FORCING/sh.nc"	, "bicubic" ,  1.0
+"ATM" , "u_bot"         , "u10"     , "./FORCING/10u.nc"	, "bicubic" ,  1.0
+"ATM" , "v_bot"         , "v10"     , "./FORCING/10v.nc"	, "bicubic" ,  1.0
+"ATM" , "z_bot"         , ""            , ""                             , "bicubic" , 10.0
+"ATM" , "gust"          , ""            , ""                             , "bicubic" ,  0.0
+"ICE" , "lw_flux_dn"    , "msdwlwrf"    , "./FORCING/msdwlwrf.nc"     , "bicubic" ,  1.0
+#"ICE" , "sw_flux_dn"    , "SWDN_MOD"    ,"./INPUT/ncar_rad.nc"     , "bicubic" ,  1.0
+"ICE" , "sw_flux_vis_dir_dn", "msdwswrf", "./FORCING/msdwswrf.nc"     , "bicubic" , 0.285
+"ICE" , "sw_flux_vis_dif_dn", "msdwswrf", "./FORCING/msdwswrf.nc"     , "bicubic" , 0.285
+"ICE" , "sw_flux_nir_dir_dn", "msdwswrf", "./FORCING/msdwswrf.nc"     , "bicubic" , 0.215
+"ICE" , "sw_flux_nir_dif_dn", "msdwswrf", "./FORCING/msdwswrf.nc"     , "bicubic" , 0.215
+"ICE" , "lprec"         , "mtpr"        , "./FORCING/mtpr.nc"  , "bicubic" ,  1.0
+#"ICE" , "fprec"         , "prsn"        , "./INPUT/jra55_clim.1990/RYF.prsn.1990_1991.nc"  , "bicubic" ,  1.0
+"ICE" , "runoff"        , "friver"      , "./FORCING/RYF.friver.1990_1991.nc"            , "bicubic"  ,  1.0
+#"ICE" , "calving"       , "CALVING"     , "./INPUT/calving.nc"            , "bicubic"  ,  1.0
+"ICE" , "dhdt"          , ""            , ""                             , "none"  , 40.0
+"ICE" , "dedt"          , ""            , ""                             , "none"  ,  2.0e-6
+"ICE" , "drdt"          , ""            , ""                             , "none"  , 10.0
+"ICE", "sic_obs"        , "SIC"         , "./INPUT/sst_ice_clim.nc"      , "bicubic" ,  0.0
+"ICE", "sit_obs"        , "SIT"         , "./INPUT/sst_ice_clim.nc"      , "bicubic" ,  0.0
+"ICE", "sst_obs"        , "SST"         , "./INPUT/sst_ice_clim.nc"      , "bicubic" ,  1.0
+"LND" ,	"t_surf" 	, ""            , ""			         , "none"  ,  273.0  
+"LND" ,	"t_ca"		, ""            , ""			         , "none"  ,  273.0  
+"LND" ,	"q_ca"		, ""            , ""			         , "none"  ,  0.0  
+"LND" ,	"rough_mom" 	, ""            , ""                	         , "none"  ,  0.01  
+"LND" ,	"rough_heat" 	, ""            , ""                	         , "none"  ,  0.1  
+"LND" ,	"albedo" 	, ""            , ""                	         , "none"  ,  0.1  
+"LND" ,	"t_flux"   	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"sphum_flux" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"lw_flux" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"sw_flux" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"lprec" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"fprec" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"dhdt"		, ""            , ""                	         , "none"  ,  5.0  
+"LND" ,	"dedt"		, ""            , ""                	         , "none"  ,  2e-6  
+"LND" ,	"dedsphum"	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"drdt"		, ""            , ""                	         , "none"  ,  5.0  
+"LND" ,	"drag_q" 	, ""            , ""                	         , "none"  ,  0.0  
+"LND" ,	"p_surf" 	, ""            , ""                	         , "none"  ,  1.e5

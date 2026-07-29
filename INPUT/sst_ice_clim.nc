@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/sst_ice_clim.nc

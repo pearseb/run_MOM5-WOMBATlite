@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/ssw_atten_depth.nc

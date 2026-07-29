@@ -1,0 +1,1 @@
+../INITIAL/ice_ocmip2_cfc.res.nc

@@ -1,0 +1,28 @@
+
+! calculation of fluxes of fluxes of carbon (natural and anthropogenic) and production (primary and export)
+! mac, jul12.  
+! quick calc of natural flux from a year.  mac, jan13.  
+
+! set symbol values...
+define symbol t1 $1
+
+
+cancel data/all
+set memory/size=500
+
+use "ocean_bgc_($t1)_01.nc"
+use "ocean_month_($t1)_01.nc"
+
+let fac1 = 31e6*12e-15*1e-3    ! convert mmol(CO2)/sec to Pg(C)/year
+let nflux0=stf07[d=1]*area_t[d=2]*fac1
+let aflux0=stf09[d=1]*area_t[d=2]*fac1
+
+define variable/title="Natural carbon flux"/units="Pg(C)/yr" nflux = nflux0[x=@sum,y=@sum]
+define variable/title="Anthro. + natural carbon flux"/units="Pg(C)/yr" aflux = aflux0[x=@sum,y=@sum]
+
+list nflux[l=@ave], aflux[l=@ave]
+
+!save/clobber/file=bgc_($t1)_nflux.nc nflux
+
+exit
+

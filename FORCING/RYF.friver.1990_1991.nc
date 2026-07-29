@@ -1,0 +1,1 @@
+/g/data/v19/mtc599/mom5/jra55_clim.1990/RYF.friver.1990_1991.nc

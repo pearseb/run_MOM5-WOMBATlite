@@ -1,0 +1,1 @@
+../../inputs_MOM5-WOMBATlite/ocmip2_fice_monthly_om1p5_bc.nc

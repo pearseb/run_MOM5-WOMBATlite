@@ -1,0 +1,1 @@
+../INITIAL/ocmip2_cfc_airsea_flux.res.nc

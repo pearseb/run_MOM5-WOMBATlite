@@ -1,0 +1,1 @@
+/g/data/v19/mtc599/mom5/jun26b/RESTART/ice_ocmip2_cfc.res.nc
