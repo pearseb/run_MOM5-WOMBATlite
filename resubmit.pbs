@@ -27,7 +27,11 @@ export RUNOFF_SOURCE=${RUNOFF_SOURCE:-/g/data/v19/mtc599/mom5/jra55_clim.1990/RY
 
 endyear=${ENDYEAR:-2009}
 
-./preflight.sh
+# Required settings for this executable/run combination.
+sed -i -E 's/(do_generic_WOMBATlite[[:space:]]*=[[:space:]]*)\.false\./\1.true./' input.nml
+sed -i 's/"time"12,"months"/"time",12,"months"/' diag_table
+
+bash preflight.sh
 
 read -r runyear _ < <(tail -n 1 RESTART/coupler.res)
 if (( runyear > endyear )); then
@@ -51,7 +55,7 @@ fi
 
 (
     cd FORCING
-    ./forcing_links.sh "${runyear}"
+    bash forcing_links.sh "${runyear}"
 )
 
 shopt -s nullglob
