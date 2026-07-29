@@ -1,5 +1,5 @@
  &coupler_nml
-        months = 12,
+        months = 1,
         days   = 0,
         current_date = 0001,1,1,0,0,0,
         calendar = 'NOLEAP',
@@ -48,10 +48,10 @@
 
  &generic_tracer_nml
         do_generic_tracer=.true.
-        do_generic_age   =.true.
-        do_generic_CFC   =.false.
-        do_generic_SF6   =.false.
-        do_generic_WOMBATlite =.false.
+        do_generic_age   =.false.
+        do_generic_CFC   =.true.
+        do_generic_SF6   =.true.
+        do_generic_WOMBATlite =.true.
 /
 
  &ice_model_nml

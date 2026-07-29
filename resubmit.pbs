@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #PBS -P v19
 #PBS -q normal
 #PBS -l walltime=03:00:00
