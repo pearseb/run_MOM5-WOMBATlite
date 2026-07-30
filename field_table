@@ -167,7 +167,7 @@ elon = 360.0
 "rayleigh","Torres","itable=62,jtable=105,ktable_1=1,ktable_2=50,rayleigh_damp_table=3600"
 "rayleigh","Torres","itable=62,jtable=106,ktable_1=1,ktable_2=50,rayleigh_damp_table=3600"
 "rayleigh","Torres","itable=62,jtable=107,ktable_1=1,ktable_2=50,rayleigh_damp_table=3600"
-"rayleigh","Torres","itable=62,jtable=108,ktable_1=1,ktable_2=50,rayleigh_damp_table=3600"/
+"rayleigh","Torres","itable=62,jtable=108,ktable_1=1,ktable_2=50,rayleigh_damp_table=3600"
 /
 "namelists","ocean_mod","generic_wombatlite/*global*"
 /
