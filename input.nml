@@ -40,7 +40,7 @@
          threading_read='multi'
          threading_write='single'
          fileset_write='single'
-         checksum_required=.false.
+         checksum_required=.true.
 /
 
  &fms_nml

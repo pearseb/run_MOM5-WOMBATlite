@@ -24,8 +24,39 @@ mom5_ocean_sis
 #
 #output variables
 #
-# bgc fields
+# bgc fields and diagnostics
 "generic_wombatlite","no3","no3","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","fe","fe","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","o2","o2","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","phy","phy","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","phyfe","phyfe","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","pchl","pchl","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zoo","zoo","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zoofe","zoofe","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","det","det","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","detfe","detfe","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","dic","dic","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","alk","alk","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","caco3","caco3","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","npp3d","npp3d","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zsp3d","zsp3d","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","radbio","radbio","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","co3","co3","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","htotal","htotal","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","omega_ara","omega_ara","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","omega_cal","omega_cal","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","fesources","fesources","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","fesinks","fesinks","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","phy_lpar","phy_lpar","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","phy_lnit","phy_lnit","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","phy_lfer","phy_lfer","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","pic2poc","pic2poc","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zooeps","zooeps","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zoograzphy","zoograzphy","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","zoograzdet","zoograzdet","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","detremi","detremi","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","det_vmove","det_vmove","ocean_bgc%4yr%2mo","all",.true.,"none",2
+"generic_wombatlite","caco3_vmove","caco3_vmove","ocean_bgc%4yr%2mo","all",.true.,"none",2
 
 #==================
 # OCEAN DIAGNOSTICS
